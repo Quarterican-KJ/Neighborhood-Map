@@ -45,7 +45,7 @@ class App extends Component {
       zoom: 12
     });
 
-    this.state.venues.map(myVenue => {
+    this.state.venues.forEach(myVenue => {
       const contentString = `${myVenue.venue.name}`
 
       //info Window
