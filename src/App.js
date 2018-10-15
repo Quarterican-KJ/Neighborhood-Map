@@ -4,9 +4,11 @@ import axios from 'axios'
 
 class App extends Component {
   state = {
-    venues: []
+    venues: [],
+    map: null,
+    infowindow: null,
+    marker: null
   }
-
 
   componentDidMount() {
     this.getVenues()
@@ -44,31 +46,41 @@ class App extends Component {
       center: {lat: 37.08476, lng: -94.51347},
       zoom: 12
     });
-
+    const infowindow = new window.google.maps.InfoWindow();
+    this.setState({
+      map: map,
+      infowindow: infowindow
+    })
     this.state.venues.forEach(myVenue => {
-      const contentString = `${myVenue.venue.name}`
-
-      //info Window
-      const infowindow = new window.google.maps.InfoWindow({
-        content: contentString
-      });
-
+      console.log(myVenue.venue.name);
       //marker
       const marker = new window.google.maps.Marker({
         position: {lat: myVenue.venue.location.lat, lng: myVenue.venue.location.lng},
-        map: map,
-        title: myVenue.venue.name
+        map: this.state.map,
+        title: myVenue.venue.name,
       })
-
       //onClick 
-      marker.addListener('click', function() {
-        infowindow.open(map, marker);
+      marker.addListener('click', () => {
+        this.openInfoWindow(marker);
       });
-
-
     });
   }
+  openInfoWindow = (marker) => {
+    console.log(this.state.infowindow);
+    const contentString = `${marker.title}`;
+    console.log(marker);
+    const { map } = this.state;
+    this.state.infowindow.setContent(contentString);
+    console.log(marker);
+    this.state.infowindow.open(map, marker);
+    marker.setAnimation(window.google.maps.Animation.BOUNCE);
+    // marker animation via setTimeout lasts 2 seconds
+    setTimeout(() => marker.setAnimation(null), 1550);
 
+    this.setState({
+      marker: marker
+    });
+  }
 
   render() {
     return (
