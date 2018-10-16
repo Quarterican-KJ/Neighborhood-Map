@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import axios from 'axios'
+import SideBar from './Components/SideBar';
 
 class App extends Component {
   state = {
@@ -32,7 +33,7 @@ class App extends Component {
     axios.get(endPoint + new URLSearchParams(parm))
     .then(response => {
       this.setState({
-        venues: response.data.response.groups[0].items
+        venues: response.data.response.groups[0].items,
       }, this.loadMap())
       console.log();
     })
@@ -46,11 +47,13 @@ class App extends Component {
       center: {lat: 37.08476, lng: -94.51347},
       zoom: 12
     });
+
     const infowindow = new window.google.maps.InfoWindow();
     this.setState({
       map: map,
       infowindow: infowindow
     })
+
     this.state.venues.forEach(myVenue => {
       console.log(myVenue.venue.name);
       //marker
@@ -58,16 +61,21 @@ class App extends Component {
         position: {lat: myVenue.venue.location.lat, lng: myVenue.venue.location.lng},
         map: this.state.map,
         title: myVenue.venue.name,
+        id: myVenue.venue.id,
+        location: myVenue.venue.location.formattedAddress,
       })
+
       //onClick 
       marker.addListener('click', () => {
         this.openInfoWindow(marker);
       });
     });
   }
+
   openInfoWindow = (marker) => {
     console.log(this.state.infowindow);
-    const contentString = `${marker.title}`;
+    const contentString = `<h2>${marker.title}</h2>
+    <p>${marker.location}</p>`;
     console.log(marker);
     const { map } = this.state;
     this.state.infowindow.setContent(contentString);
@@ -84,9 +92,10 @@ class App extends Component {
 
   render() {
     return (
-      <main>
+      <div className = "App">
+          <SideBar/>
         <div id="map"></div>
-      </main>
+      </div>
     );
   }
 }
