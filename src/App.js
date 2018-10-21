@@ -8,7 +8,7 @@ class App extends Component {
     venues: [],
     map: null,
     infowindow: null,
-    marker: null
+    marker: [],
   }
 
   componentDidMount() {
@@ -90,10 +90,17 @@ class App extends Component {
     });
   }
 
+  listItemClick = (venue) => {
+    console.log(venue);
+      const marker = this.state.marker.find(marker => marker.id = venue.id);   
+    this.openInfoWindow(marker)
+    console.log(marker);
+  }
+
   render() {
     return (
       <div className = "App">
-          <SideBar/>
+          <SideBar {...this.state} listItemClick = {this.listItemClick}  />
         <div id="map"></div>
       </div>
     );
