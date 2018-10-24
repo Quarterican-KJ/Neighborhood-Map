@@ -6,12 +6,56 @@ export default class SideBar extends Component {
             super()
             this.state = {
                   query:"",
+                  results:[],
             }
       }
       filterVenues = () => {
 
       }
-      handleChange = e => {
+
+      componentWillReceiveProps = () => {
+            this.setState({results: this.props.venues})
+         } 
+
+      updateQuery = (query) => {
+            const value = query.target.value
+            this.setState({query: value}, this.submitSearch(value));
+         }
+      
+         submitSearch(query) {
+               console.log(query);
+             const filter = []  
+            if(query === '') {
+                this.setState({ results: this.props.venues })
+                this.props.markers.forEach(marker => marker.setVisible(true))
+            }
+            else{
+                  this.props.venues.forEach(venue => {
+                        console.log(venue);                        
+                        if(venue.venue.name.toLowerCase().includes(query.toLowerCase())) {
+                              console.log(venue);
+                              filter.push(venue);
+                              this.props.markers.forEach(marker => {
+                                    console.log(marker);
+                                    if(marker.id===venue.venue.id) {
+                                          console.log(venue);
+                                          marker.setVisible(true)                                                                                    
+                                    }
+                                    else{
+                                          marker.setVisible(false)
+                                          //check why not resetting after clearing filter field, partly resetting
+                                          //find workaround
+                                    }                                    
+                              })
+                        }
+                        console.log(filter);
+                        this.setState({results: filter})
+                        
+                  })
+            }
+            
+         }
+/*       handleChange = e => {
             this.setState({query: e.target.value })
             const markers = this.props.venues.map(venue => {
                   const isMatched = venue.name.toLowerCase().includes(e.target.value.toLowerCase())
@@ -27,7 +71,7 @@ export default class SideBar extends Component {
                   return marker;
             })
             this.props.updateSuperState({markers})
-      }
+      } */
 
    render() {
       return (
@@ -36,9 +80,9 @@ export default class SideBar extends Component {
             type = {"search"}
             id = {"search"} 
             placeholder = {"filter venues"}
-            onChange = {this.handleChange}
+            onChange = {this.updateQuery}
             />
-            <VenueList {...this.props} 
+            <VenueList venues = {this.state.results} 
             listItemClick = {this.props.listItemClick} 
             />
       </div>)
