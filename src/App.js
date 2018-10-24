@@ -8,7 +8,11 @@ class App extends Component {
     venues: [],
     map: null,
     infowindow: null,
+    markers: [],
     marker: [],
+    updateSuperState: obj => {
+      this.setState(obj)
+    }
   }
 
   componentDidMount() {
@@ -25,7 +29,7 @@ class App extends Component {
     const parm = {
       client_id: "AWSX5MOMPOKAB3Y0LSWD4GLGAIQTNVP4MKXWOITGKRWLSEPM",
       client_secret: "B0OSWWFO3VUIWYO1Y4D5IMCTK3REKYSQRC2KIXDGTHWBKFCT",
-      query: "food",
+      query: "bar",
       near: "Joplin",
       v: "20182507"
     }
@@ -45,56 +49,62 @@ class App extends Component {
   initMap = () => {
     const map = new window.google.maps.Map(document.getElementById('map'), {
       center: {lat: 37.08476, lng: -94.51347},
-      zoom: 12
+      zoom: 10
     });
 
     const infowindow = new window.google.maps.InfoWindow();
+    const bounds = new window.google.maps.LatLngBounds();
+
     this.setState({
       map: map,
       infowindow: infowindow
     })
-
+    
+    const allMarkers = [];
     this.state.venues.forEach(myVenue => {
-      console.log(myVenue.venue.name);
       //marker
       const marker = new window.google.maps.Marker({
-        position: {lat: myVenue.venue.location.lat, lng: myVenue.venue.location.lng},
+        position: new window.google.maps.LatLng(myVenue.venue.location.lat, myVenue.venue.location.lng),
         map: this.state.map,
         title: myVenue.venue.name,
         id: myVenue.venue.id,
         location: myVenue.venue.location.formattedAddress,
       })
-
+      allMarkers.push(marker);
+      console.log(marker.position);
+      bounds.extend(marker.position);
       //onClick 
       marker.addListener('click', () => {
         this.openInfoWindow(marker);
       });
     });
+    map.fitBounds(bounds);
+    this.setState({
+      markers: allMarkers
+    });
   }
 
   openInfoWindow = (marker) => {
-    console.log(this.state.infowindow);
     const contentString = `<h2>${marker.title}</h2>
     <p>${marker.location}</p>`;
-    console.log(marker);
     const { map } = this.state;
     this.state.infowindow.setContent(contentString);
-    console.log(marker);
     this.state.infowindow.open(map, marker);
     marker.setAnimation(window.google.maps.Animation.BOUNCE);
     // marker animation via setTimeout lasts 2 seconds
     setTimeout(() => marker.setAnimation(null), 1550);
 
-    this.setState({
-      marker: marker
-    });
+
   }
 
   listItemClick = (venue) => {
-    console.log(venue);
-      const marker = this.state.marker.find(marker => marker.id = venue.id);   
-    this.openInfoWindow(marker)
-    console.log(marker);
+      this.state.markers.map(marker => {
+        if (marker.id === venue.id) {
+          console.log(marker);
+          console.log(venue);
+          this.openInfoWindow(marker);
+        } 
+      });   
   }
 
   render() {
