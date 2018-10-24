@@ -9,9 +9,6 @@ export default class SideBar extends Component {
                   results:[],
             }
       }
-      filterVenues = () => {
-
-      }
 
       componentWillReceiveProps = () => {
             this.setState({results: this.props.venues})
