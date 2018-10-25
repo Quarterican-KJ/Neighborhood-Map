@@ -18,12 +18,12 @@ class App extends Component {
   componentDidMount() {
     this.getVenues()
   }
-
+//Load map from google API
   loadMap = () => {
-    script("https://maps.googleapis.com/maps/api/js?key=AIzaSyCrUw5GDV04cCKVWcsY7--oNcDmfHHnCZw&callback=initMap")
+    script("https://maps.googleapis.com/maps/api/js?key=AIzaSyDWX5qpzXd4w6U3L_bKPiTK3YvTHNSv_Nw&callback=initMap")
     window.initMap = this.initMap
   }
-
+//Fetch Venues from Foursquare API
   getVenues = () => {
     const endPoint = "https://api.foursquare.com/v2/venues/explore?"
     const parm = {
@@ -33,7 +33,7 @@ class App extends Component {
       near: "Joplin",
       v: "20182507"
     }
-
+//Axios Parameters
     axios.get(endPoint + new URLSearchParams(parm))
     .then(response => {
       this.setState({
@@ -45,7 +45,7 @@ class App extends Component {
       console.log("Error!! " + error);      
     })
   }
-
+//Initialize Map Over Joplin
   initMap = () => {
     const map = new window.google.maps.Map(document.getElementById('map'), {
       center: {lat: 37.08476, lng: -94.51347},
@@ -59,7 +59,7 @@ class App extends Component {
       map: map,
       infowindow: infowindow
     })
-    
+    //place markers on map
     const allMarkers = [];
     this.state.venues.forEach(myVenue => {
       //marker
@@ -83,7 +83,7 @@ class App extends Component {
       markers: allMarkers
     });
   }
-
+//Create Info Window
   openInfoWindow = (marker) => {
     const contentString = `<h2>${marker.title}</h2>
     <p>${marker.location}</p>`;
@@ -96,7 +96,7 @@ class App extends Component {
 
 
   }
-
+//Open the info window when marker is clicked
   listItemClick = (venue) => {
       this.state.markers.map(marker => {
         if (marker.id === venue.id) {
@@ -106,12 +106,12 @@ class App extends Component {
         } 
       });   
   }
-
+//Render the app
   render() {
     return (
       <div className = "App">
           <SideBar {...this.state} listItemClick = {this.listItemClick}  />
-        <div id="map"></div>
+        <div id="map" role = "application" aria-hidden = "true"></div>
       </div>
     );
   }
