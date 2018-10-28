@@ -9,21 +9,14 @@ class App extends Component {
     venues: [],
     map: null,
     infowindow: null,
-    sidebarOpen: false,
+    sidebarOpen: true,
     markers: [],
     marker: [],
     updateSuperState: obj => {
       this.setState(obj)
     },
-    /* constructor(props) {
-      this.toggleSideBar = this.toggleSideBar.bind(this);
-    } */
   }
   
-  /* toggleSideBar () {
-    this.setState(state => ({ sidebarOpen: !state.sidebarOpen }));
-  } */
-
   componentDidMount() {
     this.getVenues()
   }
@@ -57,7 +50,7 @@ class App extends Component {
 //Initialize Map Over Joplin
   initMap = () => {
     const map = new window.google.maps.Map(document.getElementById('map'), {
-      center: {lat: 37.08476, lng: -94.51347},
+      center: {lat:37.056643, lng:-94.583963},
       zoom: 10
     });
 
@@ -102,9 +95,8 @@ class App extends Component {
     marker.setAnimation(window.google.maps.Animation.BOUNCE);
     // marker animation via setTimeout lasts 2 seconds
     setTimeout(() => marker.setAnimation(null), 1550);
-
-
   }
+
 //Open the info window when marker is clicked
   listItemClick = (venue) => {
       this.state.markers.map(marker => {
@@ -112,39 +104,33 @@ class App extends Component {
           console.log(marker);
           console.log(venue);
           this.openInfoWindow(marker);
+          if(window.innerWidth < 750) {
+            this.setState(state => ({ sidebarOpen: false, }));
+          }
         } 
       });   
   }
 
-  //Create NavBar
-  /* menuKeyEnter(event) {
-    var code = event.keyCode || event.which;
-    if(code === 13) {
-      this.toggleSideBar();
-    }
-  } */
-
-
-
-
+  //toggle the sidebar
+  toggleSideBar = () => {
+    this.setState(state => ({ sidebarOpen: !state.sidebarOpen }));
+  }
+  
 //Render the app
   render() {
-    /* let displaySidebar = this.state.sidebarOpen ? "block" : "none";
-    let menuText = this.state.sidebarOpen ? "Close" : "Open"; */
-    return (
+    let displaySidebar = this.state.sidebarOpen ? "block" : "none";
+     return (
       <div className = "App">
           <NavBar {...this.state}
-            //menuText={menuText}
             sidebarOpen={this.state.sidebarOpen}
             toggleSideBar={this.toggleSideBar} />
           <SideBar {...this.state}
-            //menuText={menuText}
             sidebarOpen={this.state.sidebarOpen}
             listItemClick = {this.listItemClick}
             toggleSideBar={this.toggleSideBar}
-            //displaySidebar={displaySidebar}
+            displaySidebar={displaySidebar} 
               />
-        <div id="map" role = "application" aria-hidden = "true"></div>
+        <main id="map" role = "application" aria-hidden = "true"></main>
       </div>
     );
   }

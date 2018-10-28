@@ -44,16 +44,17 @@ export default class SideBar extends Component {
 
    render() {
       return (
-            <div className = "SideBar">
+            <section className = "SideBar" style={{display: this.props.displaySidebar}}>
             <input 
             type = {"search"}
             id = {"search"} 
             placeholder = {"Search"}
+            style = {{width: 285}}
             onChange = {this.updateQuery}
             />
             <VenueList venues = {this.state.results} 
             listItemClick = {this.props.listItemClick} 
             />
-      </div>)
+      </section>)
    } 
 }
