@@ -134,15 +134,16 @@ class App extends Component {
     return (
       <div className = "App">
           <NavBar {...this.state}
-            menuText={menuText}
+            //menuText={menuText}
             sidebarOpen={this.state.sidebarOpen}
             toggleSideBar={this.toggleSideBar} />
           <SideBar {...this.state}
-            menuText={menuText}
+            //menuText={menuText}
             sidebarOpen={this.state.sidebarOpen}
             listItemClick = {this.listItemClick}
             toggleSideBar={this.toggleSideBar}
-            displaySidebar={displaySidebar}  />
+            //displaySidebar={displaySidebar}
+              />
         <div id="map" role = "application" aria-hidden = "true"></div>
       </div>
     );
