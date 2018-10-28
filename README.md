@@ -18,7 +18,6 @@ This is for anyone who wants to learn about bars in Joplin, MO (Also for new dev
 ## Dependencies
 * React
 * React Material UI
-* idb
 * Google Maps API
 * FourSquare API
 
