@@ -2,18 +2,27 @@ import React, { Component } from 'react';
 import './App.css';
 import axios from 'axios'
 import SideBar from './Components/SideBar';
+import NavBar from './Components/NavBar';
 
 class App extends Component {
   state = {
     venues: [],
     map: null,
     infowindow: null,
+    sidebarOpen: false,
     markers: [],
     marker: [],
     updateSuperState: obj => {
       this.setState(obj)
-    }
+    },
+    /* constructor(props) {
+      this.toggleSideBar = this.toggleSideBar.bind(this);
+    } */
   }
+  
+  /* toggleSideBar () {
+    this.setState(state => ({ sidebarOpen: !state.sidebarOpen }));
+  } */
 
   componentDidMount() {
     this.getVenues()
@@ -106,11 +115,34 @@ class App extends Component {
         } 
       });   
   }
+
+  //Create NavBar
+  /* menuKeyEnter(event) {
+    var code = event.keyCode || event.which;
+    if(code === 13) {
+      this.toggleSideBar();
+    }
+  } */
+
+
+
+
 //Render the app
   render() {
+    /* let displaySidebar = this.state.sidebarOpen ? "block" : "none";
+    let menuText = this.state.sidebarOpen ? "Close" : "Open"; */
     return (
       <div className = "App">
-          <SideBar {...this.state} listItemClick = {this.listItemClick}  />
+          <NavBar {...this.state}
+            menuText={menuText}
+            sidebarOpen={this.state.sidebarOpen}
+            toggleSideBar={this.toggleSideBar} />
+          <SideBar {...this.state}
+            menuText={menuText}
+            sidebarOpen={this.state.sidebarOpen}
+            listItemClick = {this.listItemClick}
+            toggleSideBar={this.toggleSideBar}
+            displaySidebar={displaySidebar}  />
         <div id="map" role = "application" aria-hidden = "true"></div>
       </div>
     );

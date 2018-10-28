@@ -1,4 +1,5 @@
 import React, {Component} from "react";
+
 import VenueList from "./VenueList";
 
 export default class SideBar extends Component {
@@ -43,16 +44,16 @@ export default class SideBar extends Component {
 
    render() {
       return (
-      <div className = "SideBar">
+            <div className = "SideBar">
             <input 
             type = {"search"}
             id = {"search"} 
-            placeholder = {"filter venues"}
+            placeholder = {"Search"}
             onChange = {this.updateQuery}
             />
             <VenueList venues = {this.state.results} 
             listItemClick = {this.props.listItemClick} 
             />
       </div>)
-   }
+   } 
 }
