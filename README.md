@@ -2,10 +2,6 @@
 ### Front End Web Developer Nanodegree
 ##### React Neighborhood Map
 
-![React Logo](favicon.ico)
-![Google Logo](maps_32dp.ico)
-![FourSquare Logo](fs_favicon.png)
-
 > This is a single page application displaying popular bar style areas in Joplin, MO.
 <br/><br/>
 
