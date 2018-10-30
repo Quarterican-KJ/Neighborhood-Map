@@ -35,10 +35,11 @@ This is for anyone who wants to learn about bars in Joplin, MO (Also for new dev
 * clone this repo with `git` or download and extract via zip
 * open terminal and change directory into project root
 * run `npm install`
-* run `npm start`
+* run `npm start`, Use `npm run build` to run a production build version.
+* service worker will only run in a production build.
 * open browser to `localhost:3000`
 * enjoy!
-
+* For more information on running a production build please visit https://reactjs.org/docs/optimizing-performance.html#use-the-production-build
 
 -----
 # Steven Babcock

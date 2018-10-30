@@ -44,7 +44,8 @@ class App extends Component {
       console.log();
     })
     .catch(error => {
-      console.log("Error!! " + error);      
+      console.log("Error!! " + error);
+      window.alert("Error cannot load foursquare API")
     })
   }
 //Initialize Map Over Joplin
@@ -137,6 +138,9 @@ class App extends Component {
 }
 
 function script(url) {
+   window.onerror = function() {
+     window.alert("Cannot load google maps API")
+   }
    const index = window.document.getElementsByTagName("script")[0]
    const script = window.document.createElement("script")
    script.src = url

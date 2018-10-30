@@ -45,6 +45,7 @@ export default class SideBar extends Component {
    render() {
       return (
             <section className = "SideBar" style={{display: this.props.displaySidebar}}>
+            <label for = "search">Filter Venues</label>
             <input 
             type = {"search"}
             id = {"search"} 
