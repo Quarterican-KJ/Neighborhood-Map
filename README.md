@@ -3,6 +3,7 @@
 ##### React Neighborhood Map
 
 > This is a single page application displaying popular bar style areas in Joplin, MO.
+If you would like to view a live version of the app please visit https://neighborhood-map-sj.herokuapp.com/
 <br/><br/>
 
 Project created using React JS, Foursquare API and Google Maps API. <br/>
